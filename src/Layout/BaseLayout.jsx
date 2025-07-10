@@ -35,7 +35,7 @@ export default function BaseLayout() {
   return (
     <div className="flex h-screen w-full overflow-hidden">
       {/* SIDE BAR */}
-      <div className="h-full w-80 bg-gray-50 ">
+      <div className="h-full w-80 bg-gray-100  border border-r">
         {/* SIDE BAR ELEMENT */}
 
         {/* SIDE TOP ELEMENT */}

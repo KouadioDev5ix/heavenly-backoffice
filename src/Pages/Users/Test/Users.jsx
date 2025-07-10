@@ -44,10 +44,8 @@ export default function Users() {
   const indexOfLastUser = currentPage * itemsPerPage;
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
   const usersToDisplay = stateLoading.filterIsActive ? filteredUsers : user;
-  const currentUsers = usersToDisplay.slice(indexOfFirstUser, indexOfLastUser);
+  let currentUsers = usersToDisplay.slice(indexOfFirstUser, indexOfLastUser);
   const [searhTerm, setSearchTerm] = useState("");
-
-  console.log(usersToDisplay);
 
   useEffect(() => {
     loadUserSinceLocalStorage();
@@ -233,6 +231,7 @@ export default function Users() {
       //   const newTotalPages = Math.ceil((user.length - 1) / itemsPerPage);
       //   return prevPage > newTotalPages ? newTotalPages : prevPage;
       // });
+
       // setUser((prevUsers) => {
       //   const updated = [...prevUsers, updatedUsers];
       //   storeUserInLocalStorage(updated); // on stocke directement la nouvelle liste
@@ -434,7 +433,7 @@ export default function Users() {
         </div>
       </div>
       {/* Table sections */}
-      <section className="bg-white rounded-2xl border border-gray-100   shadow-sm p-4 mt-5">
+      <section className="bg-white rounded-2xl border border-gray-100   shadow-sm p-6 mt-5">
         <div className="overflow-auto rounded-lg border border-gray-300">
           <table className="min-w-full text-sm text-left text-gray-700">
             <thead className="bg-gray-100 border-b text-gray-600 font-semibold">
