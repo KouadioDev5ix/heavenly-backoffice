@@ -20,14 +20,18 @@ const RoutesGuard = () => {
 };
 
 export const AppRouter = createHashRouter([
-  {
-    path: "/authentification",
-    element: userIsConnected() ? <Navigate to="/" /> : <Login />,
-  },
+  // {
+  //   path: "/authentification",
+  //   element: userIsConnected() ? <Navigate to="/" /> : <Login />,
+  // },
 
   {
     path: "/mot-de-pass-oublié",
     element: <ForgortPassword />,
+  },
+  {
+    path: "/authentification",
+    element: <Login />,
   },
 
   // {

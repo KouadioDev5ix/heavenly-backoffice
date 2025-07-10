@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import deleteIcon from "../../BASE/archive-check-svgrepo-com (2).svg";
 import editIcon from "../../BASE/pen-2-svgrepo-com (3).svg";
 import toast from "react-hot-toast";
+import ButtonLoader from "../../Components/ButtonLoader/ButtonLoader";
 
 export default function Users() {
   const [userDataLoading, setUserDataLoading] = useState(false);
-
   const [stateLoading, setStateLoading] = useState({
     userDataLoading: false,
     deleteUserLoading: false,
@@ -47,16 +47,15 @@ export default function Users() {
   const currentUsers = usersToDisplay.slice(indexOfFirstUser, indexOfLastUser);
   const [searhTerm, setSearchTerm] = useState("");
 
-  console.log(usersToDisplay);
-
-  useEffect(() => {
-    loadUserSinceLocalStorage();
-  }, []);
-
   /**
+   * Filters users based on a search term that matches either the last name or first name.
+   * If the search term is empty, it resets the filter and , related loading states.
+   * Otherwise, it activates a loadingg state, applies the filter, and updates the UI after az short delay.
    *
-   * @returns
+   * @function searhUserByLastNameOrFirstName
+   * @returns {void}
    */
+
   const searhUserByLastNameOrFirstName = () => {
     if (searhTerm.trim() === "") {
       setStateLoading((previousState) => ({
@@ -87,7 +86,11 @@ export default function Users() {
   };
 
   /**
+   * Cancels the active search by resetting the filtered user list
+   * and desactivating the filter statee.
    *
+   * @function cancelSearch
+   * @returns {void}
    */
   const cancelSearch = () => {
     setStateLoading((previousState) => ({
@@ -98,8 +101,15 @@ export default function Users() {
   };
 
   /**
-   * @param {*} event
-   * @param {*} value
+   * ::::::::::::::::::::::::::::::::::::PAGINATION:::::::::::::::::::::::::::::::
+   */
+  /**
+   * Handles pagination change by updating the current page number.
+   *
+   * @function handlePageChange
+   * @param {React.ChangeEvent<unknown>} event - The event triggered by the pagination component.
+   * @param {number} value - The new page number seleccted by the user.
+   * @returns {void}
    */
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -110,7 +120,12 @@ export default function Users() {
    */
 
   /**
+   * Loads user data from localStorage and updates the user state.
+   * Activates loading indicators during the simulated fetch delay.
+   * If an error occurs while parsing the data, it logs the error and resets the user list.
    *
+   * @function loadUserSinceLocalStorage
+   * @returns {void}
    */
 
   const loadUserSinceLocalStorage = () => {
@@ -135,15 +150,30 @@ export default function Users() {
     }
   };
 
+  /**
+   * Stores the given user list in localStorage under the key "users".
+   *
+   * @function storeUserInLocalStorage
+   * @param {Array<Object>} user - The array of user objects to store.
+   * @returns {void}
+   */
+
   const storeUserInLocalStorage = (user) => {
     localStorage.setItem("users", JSON.stringify(user));
   };
 
   /**
-   *
-   * @param {*} userId
+   * ::::::::::::::::::::::::PERFORM ACTION ON USER ADD - DELETE - UPDATE::::::::::::::
    */
 
+  /**
+   * Prepares the UI and state for deleting a user by opening the modal,
+   * setting the selected user ID for deletion, and updating related flags.
+   *
+   * @function selectUserToDelete
+   * @param { number} userId - The ID of the user selected for deletion.
+   * @returns {void}
+   */
   const selectUserToDelete = (userId) => {
     document.getElementById("AddOrEditUserModal").showModal();
     setselectUserToDeleteID(userId);
@@ -153,8 +183,14 @@ export default function Users() {
   };
 
   /**
+   * Deletes the selected user from the user list.
+   * Updates localStorage, recalculates pagination if needed,
+   * shows a success toast, and closes the modal after a delay.
    *
+   * @function handleDeletedUser
+   * @returns {void}
    */
+
   const handleDeletedUser = () => {
     setStateLoading((previousState) => ({
       ...previousState,
@@ -178,10 +214,13 @@ export default function Users() {
       document.getElementById("AddOrEditUserModal").close();
     }, 2000);
   };
-
   /**
+   * Prepares the UI and state for editing a user by pre-filling form inputs,
+   * enabling edit mode, and opening the modal.
    *
-   * @param {*} userToEdit
+   * @function selectUserToEdit
+   * @param {Object} userToEdit - The user object to be edited.
+   * @returns {void}
    */
   const selectUserToEdit = (userToEdit) => {
     setInputs(userToEdit);
@@ -192,8 +231,12 @@ export default function Users() {
   };
 
   /**
+   * Validates the input fields and updates the selected user if no errors are found.
+   * Shows validation errors if present, updates the user list and localStorage,
+   * and closes the modal after showing a success message.
    *
-   * @returns
+   * @function handleEditUser
+   * @returns {void}
    */
 
   const handleEditUser = () => {
@@ -249,7 +292,11 @@ export default function Users() {
   };
 
   /**
+   * Opens the modal to add a new user.
+   * Clears the form, resets error and mode flags before displaying the modal.
    *
+   * @function OpenModalToAddUser
+   * @returns {void}
    */
   const OpenModalToAddUser = () => {
     clearFormAfterSubmitting();
@@ -260,9 +307,12 @@ export default function Users() {
   };
 
   /**
+   * Maps internal field names to user-friendly display names in French.
+   * Returns the original field name if no mapping is found.
    *
-   * @param {*} field
-   * @returns
+   * @function formatFieldName
+   * @param {string} field - The internal field name to format.
+   * @returns {string} The user-friendly display name for the field.
    */
 
   const formatFieldName = (field) => {
@@ -278,9 +328,11 @@ export default function Users() {
   };
 
   /**
-   * Simple regular expression to check a valid email
-   * @param {string} email
-   * @returns {boolean}
+   * Validates whether a given string is a valid email address.
+   *
+   * @function isValidEmail
+   * @param {string} email - The email address to validate.
+   * @returns {boolean} True if the email is valid, false otherwise.
    */
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -288,7 +340,10 @@ export default function Users() {
   }
 
   /**
+   * Resets the user input form fields to empty strings.
    *
+   * @function clearFormAfterSubmitting
+   * @returns {void}
    */
   const clearFormAfterSubmitting = () => {
     setInputs({
@@ -302,10 +357,13 @@ export default function Users() {
   };
 
   /**
+   * Validates the user input fields and adds a new user to the list if valid.
+   * Shows validation errors if present, updates the user list and localStorage,
+   * clears the form, closes the modal, and shows a success toast.
    *
-   * @returns
+   * @function handleAddUser
+   * @returns {void}
    */
-
   const handleAddUser = () => {
     const newErrors = {};
     Object.entries(inputs).forEach(([key, value]) => {
@@ -332,7 +390,6 @@ export default function Users() {
         storeUserInLocalStorage(updatedUsers);
         return updatedUsers;
       });
-      console.log("User created ===", newUser);
       setAddUserLoarder(false);
       clearFormAfterSubmitting();
       document.getElementById("AddOrEditUserModal").close();
@@ -340,53 +397,23 @@ export default function Users() {
     }, 1000);
   };
 
-  // const handleAddUser = () => {
-  //   const newErrors = {};
-  //   Object.entries(inputs).forEach(([key, value]) => {
-  //     if (value.trim() === "") {
-  //       newErrors[key] = `${formatFieldName(key)} ne peut être vide.`;
-  //     }
-  //   });
-  //   if (inputs.mail.trim() !== "" && !isValidEmail(inputs.mail)) {
-  //     newErrors.mail = "Adresse email invalide.";
-  //   }
-  //   setErrors(newErrors);
-  //   const hasErrors = Object.values(newErrors).some((error) => error !== "");
-  //   if (hasErrors) {
-  //     setInputHasError(true);
-  //     setAddUserLoarder(false);
-  //     return;
-  //   }
-  //   setAddUserLoarder(true);
-  //   setTimeout(() => {
-  //     const newUser = { ...inputs, id: Date.now() };
-  //     setUser((prevUsers) => {
-  //       const updatedUsers = [...prevUsers, newUser];
-  //       currentUsers = updatedUsers;
-  //       storeUserInLocalStorage(currentUsers);
-  //       return currentUsers;
-  //     });
-  //     setCurrentPage(Math.ceil((currentUsers.length + 1) / itemsPerPage));
-  //     setCurrentPage((prevPage) => {
-  //       const newTotalPages = Math.ceil(
-  //         (currentUsers.length - 1) / itemsPerPage
-  //       );
-  //       return prevPage > newTotalPages ? newTotalPages : prevPage;
-  //     });
-  //     setAddUserLoarder(false);
-  //     clearFormAfterSubmitting();
-  //     document.getElementById("AddOrEditUserModal").close();
-  //     toast.success("Utilisateur ajouté avec succèss");
-  //   }, 2000);
-  // };
-
   /**
+   * Closes the modal dialog with the ID "AddOrEditUserModal".
    *
+   * @function closeModal
+   * @returns {void}
    */
 
   const closeModal = () => {
     document.getElementById("AddOrEditUserModal").close();
   };
+
+  /**
+   * Get users store in the localStorage, once the component is mounted
+   */
+  useEffect(() => {
+    loadUserSinceLocalStorage();
+  }, []);
 
   return (
     <div className="p-2">
@@ -405,15 +432,15 @@ export default function Users() {
       <div className="mt-5 flex items-center gap-4">
         <div className="form-control w-full max-w-[270px]">
           <label className="label mb-0">
-            <span className="label-text text-lg font-medium text-nowrap -mb-1 text-gray-600">
-              Rechercher par nom ou prénoms
+            <span className="label-text text-lg font-bold text-nowrap -mb-1 text-gray-600">
+              Rechercher utilisateur
             </span>
           </label>
           <input
             value={searhTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             type="text"
-            placeholder="Ex: Kouadio"
+            placeholder="Nb : par nom ou prénoms"
             className="input input-bordered w-full h-5 md:h-10 max-w-sm rounded-md"
           />
         </div>
@@ -525,28 +552,26 @@ export default function Users() {
       </div>
 
       {/* Modal section */}
-
       <dialog id="AddOrEditUserModal" className="modal rounded-lg">
         <div className="modal-box p-3">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
-
+          {/* TITLES ACTIONS  */}
           <div className="my-4">
-            <h1 className="text-lg font-medium leading-3 ">
+            <h1 className="text-lg font-extrabold leading-3 ">
               {editUser && "Modification d'utilisateur"}
 
               {!editUser && !deleteUser && "Ajout d'utilisateur"}
             </h1>
-            <h1 className="text-lg font-medium leading-3 ">
+            <h1 className="text-lg font-semibold leading-3 ">
               {deleteUser &&
                 "Etes vous sur de vouloir supprimer cet utilisateur ?"}
             </h1>
           </div>
-
+          {/* CONTENT */}
           <div className={`${deleteUser ? "h-24" : "h-[380px]"}`}>
             {deleteUser ? (
               <div className="mt-10 mb-7">
@@ -738,6 +763,12 @@ export default function Users() {
                 deleteUser
                   ? "w-full h-10 bg-red-600 rounded-md text-white"
                   : "w-full h-10 bg-orange-600 rounded-md text-white"
+              } ${
+                stateLoading.deleteUserLoading ||
+                stateLoading.editUserLoading ||
+                addUserLoarder
+                  ? "cursor-not-allowed"
+                  : ""
               }`}
               onClick={() => {
                 if (editUser) {
@@ -757,7 +788,9 @@ export default function Users() {
               {!editUser && !deleteUser ? (
                 addUserLoarder ? (
                   <span className="flex items-center justify-center">
-                    <span className="loading loading-spinner loading-md text-white"></span>
+                    <>
+                      <ButtonLoader />
+                    </>
                   </span>
                 ) : (
                   "Ajouter"
@@ -767,7 +800,9 @@ export default function Users() {
               {editUser ? (
                 stateLoading.editUserLoading ? (
                   <span className="flex items-center justify-center">
-                    <span className="loading loading-spinner loading-md text-white"></span>
+                    <>
+                      <ButtonLoader />
+                    </>
                   </span>
                 ) : (
                   "modifier"
@@ -777,7 +812,9 @@ export default function Users() {
               {deleteUser ? (
                 stateLoading.deleteUserLoading ? (
                   <span className="flex items-center justify-center">
-                    <span className="loading loading-spinner loading-md text-white"></span>
+                    <>
+                      <ButtonLoader />
+                    </>
                   </span>
                 ) : (
                   "Supprimer"
@@ -786,7 +823,13 @@ export default function Users() {
             </button>
 
             <button
-              className="w-full h-10 bg-gray-200 rounded-md text-black"
+              className={`${
+                stateLoading.deleteUserLoading ||
+                stateLoading.editUserLoading ||
+                addUserLoarder
+                  ? "cursor-not-allowed w-full h-10 bg-gray-200 rounded-md text-black"
+                  : "w-full h-10 bg-gray-200 rounded-md text-black"
+              }`}
               onClick={closeModal}
               disabled={
                 stateLoading.deleteUserLoading ||

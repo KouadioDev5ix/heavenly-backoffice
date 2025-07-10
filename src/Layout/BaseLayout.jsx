@@ -259,7 +259,9 @@ export default function BaseLayout() {
           </form>
 
           <div className="my-4">
-            <h1 className="text-lg font-medium leading-3 ">Se deconnecter</h1>
+            <h1 className="text-lg font-extrabold leading-3 ">
+              Se deconnecter
+            </h1>
           </div>
 
           <div className={`h-24`}>

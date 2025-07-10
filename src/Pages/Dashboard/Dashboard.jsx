@@ -4,13 +4,10 @@ import { Search } from "lucide-react";
 import IncomeCharts from "../../Components/BarChart";
 import IncomeDoughnutChart from "../../Components/IncomeDoughnutChart";
 
-// import { Bar } from "react-chartjs-2";
-// import "chart.js/auto";
-
 export default function Dashboard() {
   return (
     <div className="">
-      <div className="headear w-full fixed top-0 z-20 drop-shadow-md bg-gray-50 mr-3 ">
+      <div className="headear w-full fixed top-0 z-20 drop-shadow-md bg-gray-100 mr-3 ">
         <div className=" w-10/12 max-w-7xl h-20 flex items-center justify-between">
           <div className="ml-5">
             <h1 className="text-2xl font-extrabold">Tableau de board</h1>
@@ -100,7 +97,7 @@ export default function Dashboard() {
 
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 w-full">
-            {/* <!-- Articles vendus aujourd'hui --> */}
+            {/* <!-- Items sold today --> */}
             <div className="bg-gray-50 rounded-xl shadow-lg border border-slate-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
               <div className="flex items-center justify-between">
                 <div>
@@ -112,7 +109,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <div className="bg-black rounded-full p-3 shadow-lg">
+                <div className="bg-orange-600 rounded-full p-3 shadow-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -150,7 +147,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* <!-- Montant total d'artiles vendus --> */}
+            {/* <!-- Total amount of items sold--> */}
             <div className="bg-gray-50 rounded-xl shadow-lg border border-slate-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
               <div className="flex items-center justify-between">
                 <div>
@@ -200,7 +197,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* <!-- Bénéfice --> */}
+            {/* <!-- Profit --> */}
             <div className="bg-gray-50 rounded-xl shadow-lg border border-slate-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
               <div className="flex items-center justify-between">
                 <div>
@@ -257,7 +254,7 @@ export default function Dashboard() {
         {/* GRAPHIQUE SECTIONS */}
 
         <div className="flex flex-col md:flex-row gap-5">
-          {/* GRAPHE À BARRES */}
+          {/*BAR CHART */}
           <div className="w-[540px]">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-[#A1A1A1] my-4">
@@ -270,7 +267,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* GRAPHE DOUGHNUT */}
+          {/* DOUGHNUT GRAPH */}
           <div className="w-[540px]">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-[#A1A1A1] my-4">

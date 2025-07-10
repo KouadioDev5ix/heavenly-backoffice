@@ -13,21 +13,22 @@ export default function ForgortPassword() {
     userName: "",
     passWord: "",
   });
-
   const [AppBooleanState, setAppBooleanState] = useState({
     sendingEmailLoading: false,
     inputContaintsError: false,
     showPassword: false,
     sendingEmailSuccess: false,
   });
-
   const navigateTo = useNavigate();
-  /**
-   *
-   * @param {*} field
-   * @returns
-   */
 
+  /**
+   **
+   * Formats a given field name to a more user-friendly display label.
+   * If the field name is not mapped, it returns the original field name.
+   *
+   * @param {string} field - The field name to format.
+   * @returns {string} - The formatted field label.
+   */
   const formateField = (field) => {
     const mapping = {
       userName: "Nom d'utilisateur",
@@ -37,10 +38,13 @@ export default function ForgortPassword() {
   };
 
   /**
+   * Handles changes in input fields by updating the global form state.
    *
-   * @param {*} e
+   * @param {Object} e - The event object from the input change.
+   * @param {HTMLInputElement} e.target - The input element that triggered the event.
+   * @param {string} e.target.name - The name attribute of the input field.
+   * @param {string} e.target.value - The current value of the input field.
    */
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setGloblaFormData((previouState) => ({
@@ -59,8 +63,12 @@ export default function ForgortPassword() {
   }
 
   /**
-   *
-   * @returns
+   * Validates the email input from the form, updates error and loading states,
+   * and simulates sending a confirmation email.
+   * If the email is valid, shows a success toast and clears the input.
+   * Otherwise, shows an error toast.
+   * @function handleLogin
+   * @returns {void}
    */
 
   const handleLogin = () => {
@@ -172,7 +180,7 @@ export default function ForgortPassword() {
 
           <div className="pt-5 md:pt-7" onClick={handleLogin}>
             <button
-              className="w-full flex items-center justify-center  text-white p-0 md:p-2 rounded bg-orange-600 font-normal md:font-medium transition"
+              className="w-full flex items-center justify-center text-white p-0 md:p-2 rounded bg-orange-600 font-normal md:font-medium transition"
               disabled={AppBooleanState.sendingEmailLoading}
             >
               {AppBooleanState.sendingEmailLoading ? (

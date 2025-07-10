@@ -27,9 +27,12 @@ export default function Login() {
 
   const navigateTo = useNavigate();
   /**
+   **
+   * Formats a given field name to a more user-friendly display label.
+   * If the field name is not mapped, it returns the original field name.
    *
-   * @param {*} field
-   * @returns
+   * @param {string} field - The field name to format.
+   * @returns {string} - The formatted field label.
    */
 
   const formateField = (field) => {
@@ -42,10 +45,13 @@ export default function Login() {
   };
 
   /**
+   * Handles changes in input fields by updating the global form state.
    *
-   * @param {*} e
+   * @param {Object} e - The event object from the input change.
+   * @param {HTMLInputElement} e.target - The input element that triggered the event.
+   * @param {string} e.target.name - The name attribute of the input field.
+   * @param {string} e.target.value - The current value of the input field.
    */
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setGloblaFormData((previouState) => ({
@@ -55,8 +61,13 @@ export default function Login() {
   };
 
   /**
-   *
-   * @returns
+   * Handles the login process by validating form data,
+   * updating error and loading states, and simulating an async login check.
+   * If validation fails, it updates error states and stops further processing.
+   * If validation succeeds, it simulates a login delay, then checks credentials,
+   * navigates on success or shows an error toast on failure.
+   * @function handleLogin
+   * @returns {void}
    */
 
   const handleLogin = () => {
@@ -107,7 +118,7 @@ export default function Login() {
   };
 
   /**
-   *
+   * Toggles the visibility state of the password input field.
    */
 
   const hiddeOrShowPassWord = () => {
