@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../assets/Thumbails/ce5699233cbc0f142250b520d967dff7 (1).png";
 import { NavLink, useNavigate } from "react-router-dom";
 import dashbordIcon from "../assets/Icons/Dashbord.svg";
@@ -8,13 +8,15 @@ import ordersIcons from "../assets/Icons/Commandes.svg";
 import Custumers from "../assets/Icons/custumers.svg";
 import Settings from "../assets/Icons/settings.svg";
 import { Outlet } from "react-router-dom";
+import ButtonLoader from "../Components/ButtonLoader/ButtonLoader";
 
 const commonClassName =
-  "flex items-center gap-2 py-2  px-4 my-1 text-md font-semibold rounded-lg hover:bg-orange-600 hover:text-white";
+  "flex items-center gap-2 py-2 px-4 my-1 text-md font-semibold rounded-lg hover:bg-orange-600 hover:text-white";
 const activedLinkClassName =
   "flex items-center gap-2 py-2 px-4 my-1 text-white bg-orange-600 text-md font-semibold rounded-lg hover:bg-orange-600";
 
 export default function BaseLayout() {
+  const [logOutLoading, setLogOutLoading] = useState(false);
   const navigateTo = useNavigate();
   const openDialogModal = () => {
     document.getElementById("deconnection").showModal();
@@ -26,11 +28,13 @@ export default function BaseLayout() {
   };
 
   const handlelogOut = () => {
-    localStorage.removeItem("isConnected");
-    navigateTo("/authentification");
+    setLogOutLoading(true);
+    setTimeout(() => {
+      localStorage.removeItem("isConnected");
+      setLogOutLoading(false);
+      navigateTo("/authentification");
+    }, 1000);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -265,7 +269,7 @@ export default function BaseLayout() {
           </div>
 
           <div className={`h-24`}>
-            <div className="mt-10 mb-7">
+            <div className="mt-10 mb-5">
               <p className=" font-medium">
                 Vous êtes sur le point de vous déconnecter. Toutes les
                 modifications non enregistrées seront perduesq. Souhaitez-vous
@@ -277,16 +281,31 @@ export default function BaseLayout() {
           <div className="flex items-center gap-4">
             <button
               className={`
-                w-full h-10 bg-red-600 rounded-md text-white
+                ${
+                  logOutLoading
+                    ? "cursor-not-allowed w-full h-10 bg-red-600 rounded-md text-white"
+                    : "w-full h-10 bg-red-600 rounded-md text-white"
+                }   
               `}
               onClick={handlelogOut}
-              // disabled={() => null}
             >
-              Me deconnecter
+              {logOutLoading ? (
+                <span className="flex items-center justify-center">
+                  <>
+                    <ButtonLoader />
+                  </>
+                </span>
+              ) : (
+                "Me deconnecter"
+              )}
             </button>
 
             <button
-              className="w-full h-10 bg-gray-200 rounded-md text-black"
+              className={`${
+                logOutLoading
+                  ? "cursor-not-allowed w-full h-10 bg-gray-200 rounded-md text-black"
+                  : "w-full h-10 bg-gray-200 rounded-md text-black"
+              }`}
               onClick={closeModal}
             >
               Annuler

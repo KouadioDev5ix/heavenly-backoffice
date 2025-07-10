@@ -212,7 +212,11 @@ export default function Login() {
           </div>
           <div className="pt-5 md:pt-7" onClick={handleLogin}>
             <button
-              className="w-full flex items-center justify-center  text-white p-0 md:p-2 rounded bg-orange-600 font-normal md:font-medium transition"
+              className={`${
+                AppBooleanState.logingLoding
+                  ? "cursor-not-allowed w-full flex items-center justify-center  text-white p-0 md:p-2 rounded bg-orange-600 font-normal md:font-medium transition"
+                  : "w-full flex items-center justify-center  text-white p-0 md:p-2 rounded bg-orange-600 font-normal md:font-medium transition"
+              }`}
               disabled={AppBooleanState.logingLoding}
             >
               {AppBooleanState.logingLoding ? (
