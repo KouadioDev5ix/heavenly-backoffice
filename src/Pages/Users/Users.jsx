@@ -271,16 +271,6 @@ export default function Users() {
         u.id === inputs.id ? { ...inputs } : u
       );
       setUser(updatedUsers);
-      // setCurrentPage(Math.ceil((user.length + 1) / itemsPerPage));
-      // setCurrentPage((prevPage) => {
-      //   const newTotalPages = Math.ceil((user.length - 1) / itemsPerPage);
-      //   return prevPage > newTotalPages ? newTotalPages : prevPage;
-      // });
-      // setUser((prevUsers) => {
-      //   const updated = [...prevUsers, updatedUsers];
-      //   storeUserInLocalStorage(updated); // on stocke directement la nouvelle liste
-      //   return updated;
-      // });
       storeUserInLocalStorage(updatedUsers);
       setStateLoading((previousState) => ({
         ...previousState,
